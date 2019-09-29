@@ -71,4 +71,7 @@ dependencies {
     // RxKotlin RxAndroid
     implementation 'io.reactivex.rxjava2:rxkotlin:2.4.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+
+    // CircleImageView
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
 }
