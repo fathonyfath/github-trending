@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="toolbarTitle_textSize">21sp</dimen>
+
+    <dimen name="noInternetConnectionTitle_textSize">18sp</dimen>
+    <dimen name="noInternetConnectionSubtitle_textSize">15sp</dimen>
+
+    <dimen name="noInternetConnectionRetry_textSize">15sp</dimen>
+
+    <dimen name="repositoryAuthor_textSize">12sp</dimen>
+    <dimen name="repositoryName_textSize">15sp</dimen>
+    <dimen name="repositoryDescription_textSize">12sp</dimen>
+    <dimen name="repositoryDetails_textSize">12sp</dimen>
+
+    <dimen name="noInternetConnection_titleToSubtitleMargin">8dp</dimen>
+    <dimen name="noInternetConnection_imageToTitleMargin">24dp</dimen>
+
+    <dimen name="noInternetConnectionRetry_margin">16dp</dimen>
+    <dimen name="noInternetConnectionRetry_height">48dp</dimen>
+</resources>

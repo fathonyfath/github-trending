@@ -1,11 +1,71 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/windowColor</item>
     </style>
 
+    <style name="AppTheme.Toolbar">
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="actionOverflowMenuStyle">@style/OverflowMenu</item>
+    </style>
+
+    <style name="AppTheme.TextAppearance" />
+
+    <style name="AppTheme.TextAppearance.ToolbarTitle">
+        <item name="android:textSize">@dimen/toolbarTitle_textSize</item>
+        <item name="android:textColor">@color/toolbarTitle_textColor</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <style name="AppTheme.TextAppearance.NoInternetConnectionTitle">
+        <item name="android:textSize">@dimen/noInternetConnectionTitle_textSize</item>
+        <item name="android:textColor">@color/noInternetConnectionTitle_textColor</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+    </style>
+
+    <style name="AppTheme.TextAppearance.RepositoryAuthor">
+        <item name="android:textSize">@dimen/repositoryAuthor_textSize</item>
+        <item name="android:textColor">@color/repositoryAuthor_textColor</item>
+        <item name="android:fontFamily">@font/roboto</item>
+    </style>
+
+    <style name="AppTheme.TextAppearance.RepositoryName">
+        <item name="android:textSize">@dimen/repositoryName_textSize</item>
+        <item name="android:textColor">@color/repositoryName_textColor</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <style name="AppTheme.TextAppearance.RepositoryDescription">
+        <item name="android:textSize">@dimen/repositoryDescription_textSize</item>
+        <item name="android:textColor">@color/repositoryDescription_textColor</item>
+        <item name="android:fontFamily">@font/pingfang_sc</item>
+    </style>
+
+    <style name="AppTheme.TextAppearance.RepositoryDetails">
+        <item name="android:textSize">@dimen/repositoryDetails_textSize</item>
+        <item name="android:textColor">@color/repositoryDetails_textColor</item>
+        <item name="android:fontFamily">@font/roboto</item>
+    </style>
+
+    <style name="AppTheme.TextAppearance.NoInternetConnectionSubtitle">
+        <item name="android:textSize">@dimen/noInternetConnectionSubtitle_textSize</item>
+        <item name="android:textColor">@color/noInternetConnectionSubtitle_textColor</item>
+        <item name="android:fontFamily">@font/roboto</item>
+    </style>
+
+    <style name="AppTheme.Button" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:background">@drawable/button</item>
+        <item name="android:textColor">@color/buttonTextColor</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">@dimen/noInternetConnectionRetry_textSize</item>
+    </style>
+
+    <style name="OverflowMenu" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <item name="overlapAnchor">false</item>
+        <item name="android:dropDownVerticalOffset">4.0dip</item>
+    </style>
 </resources>
