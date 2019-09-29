@@ -1,6 +1,6 @@
-package id.fathonyfath.githubtrending.data.source.remote.model
+package id.fathonyfath.githubtrending.model
 
-data class RepositoryJson(
+data class Repository(
     val author: String,
     val name: String,
     val avatar: String,
@@ -11,5 +11,5 @@ data class RepositoryJson(
     val stars: Long,
     val forks: Long,
     val currentPeriodStars: Long,
-    val builtBy: List<ContributorJson>
+    val builtBy: List<Contributor>
 )
