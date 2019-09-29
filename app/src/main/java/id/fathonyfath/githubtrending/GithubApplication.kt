@@ -25,6 +25,7 @@ class GithubApplication : Application(), HasAndroidInjector {
 
     private fun initializeDagger() {
         DaggerAppComponent.factory().newAppComponent(
+            this,
             BuildConfig.BASE_URL,
             BuildConfig.DEBUG
         ).inject(this)
