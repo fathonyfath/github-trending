@@ -10,7 +10,9 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import java.io.File
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class DefaultRepositoriesCache
 @Inject constructor(
     context: Context,
