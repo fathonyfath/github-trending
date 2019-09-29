@@ -70,4 +70,17 @@ class DefaultGithubRepositoryTest {
         verify(localGithubDataSource, times(1)).popularRepositories()
         verify(remoteGithubDataSource, never()).popularRepositories()
     }
+
+    @Test
+    fun repositories_clearCache() {
+        `when`(remoteGithubDataSource.popularRepositories()).thenReturn(Observable.just(emptyList()))
+
+        githubRepository.repositories(clearCache = true)
+            .test()
+            .assertValue { it.isEmpty() }
+            .dispose()
+
+        verify(remoteGithubDataSource, times(1)).popularRepositories()
+        verify(localGithubDataSource, never()).popularRepositories()
+    }
 }
