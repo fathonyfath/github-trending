@@ -9,7 +9,12 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AndroidInjectionModule::class, AppModule::class, ActivityBindingModule::class])
+@Component(
+    modules = [AndroidInjectionModule::class,
+        AppBinderModule::class,
+        AppProviderModule::class,
+        ActivityBindingModule::class]
+)
 interface AppComponent {
 
     fun inject(app: GithubApplication)
