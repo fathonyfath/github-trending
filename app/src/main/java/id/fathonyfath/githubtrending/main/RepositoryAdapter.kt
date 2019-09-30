@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView
 import id.fathonyfath.githubtrending.R
 import id.fathonyfath.githubtrending.model.Repository
 import id.fathonyfath.githubtrending.utils.loadImageWithCircleTransformation
+import java.text.NumberFormat
+import java.util.*
 
 class RepositoryAdapter(context: Context) :
     ListAdapter<Repository, RepositoryAdapter.ViewHolder>(DIFF_CALLBACK) {
@@ -91,8 +93,10 @@ class RepositoryAdapter(context: Context) :
 
             bindRepositoryLanguage(data.language, data.languageColor)
 
-            repositoryStarsView.text = data.stars.toString()
-            repositoryForksView.text = data.forks.toString()
+            val numberFormatter = NumberFormat.getNumberInstance(Locale.US)
+
+            repositoryStarsView.text = numberFormatter.format(data.stars)
+            repositoryForksView.text = numberFormatter.format(data.forks)
         }
 
         private fun bindRepositoryLanguage(language: String?, languageColor: String?) {
