@@ -22,4 +22,6 @@
     <color name="buttonBorderColor">#31B057</color>
     <color name="buttonTextColor">#31B057</color>
     <color name="buttonHighlight">#1A000000</color>
+
+    <color name="repositoryItemBackground">#FFFFFF</color>
 </resources>
