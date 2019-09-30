@@ -29,7 +29,7 @@ class MainViewModelTest {
     lateinit var githubRepository: GithubRepository
 
     @Mock
-    lateinit var stateObserver: Observer<MainViewModel.State>
+    lateinit var viewStateObserver: Observer<ViewState>
 
     lateinit var mainViewModel: MainViewModel
 
@@ -46,9 +46,9 @@ class MainViewModelTest {
     @Test
     fun init_stateShouldBeLoading() {
         mainViewModel = MainViewModel(githubRepository)
-        mainViewModel.state.observeForever(stateObserver)
+        mainViewModel.viewState.observeForever(viewStateObserver)
 
-        verify(stateObserver, atLeastOnce()).onChanged(MainViewModel.State.Loading)
+        verify(viewStateObserver, atLeastOnce()).onChanged(ViewState.Loading)
     }
 
     @Test
@@ -58,10 +58,10 @@ class MainViewModelTest {
         )
 
         mainViewModel = MainViewModel(githubRepository)
-        mainViewModel.state.observeForever(stateObserver)
+        mainViewModel.viewState.observeForever(viewStateObserver)
         mainViewModel.fetchData(false)
 
-        verify(stateObserver, atLeastOnce()).onChanged(MainViewModel.State.Success(emptyList()))
+        verify(viewStateObserver, atLeastOnce()).onChanged(ViewState.Success(emptyList()))
     }
 
     @Test
@@ -71,11 +71,11 @@ class MainViewModelTest {
         )
 
         mainViewModel = MainViewModel(githubRepository)
-        mainViewModel.state.observeForever(stateObserver)
+        mainViewModel.viewState.observeForever(viewStateObserver)
         mainViewModel.fetchData(false)
 
-        val argumentCaptor = ArgumentCaptor.forClass(MainViewModel.State.Error::class.java)
-        verify(stateObserver, atLeastOnce()).onChanged(argumentCaptor.capture())
+        val argumentCaptor = ArgumentCaptor.forClass(ViewState.Error::class.java)
+        verify(viewStateObserver, atLeastOnce()).onChanged(argumentCaptor.capture())
 
         assertTrue(argumentCaptor.value.throwable is IOException)
     }
@@ -131,13 +131,13 @@ class MainViewModelTest {
         )
 
         mainViewModel = MainViewModel(githubRepository)
-        mainViewModel.state.observeForever(stateObserver)
+        mainViewModel.viewState.observeForever(viewStateObserver)
         mainViewModel.fetchData(false)
 
-        mainViewModel.rearrangeRepositories(MainViewModel.RepositorySortingAlgorithm.BY_STARS)
+        mainViewModel.rearrangeRepositories(SortingType.BY_STARS)
 
-        verify(stateObserver, atLeastOnce()).onChanged(
-            MainViewModel.State.Success(sortedByStars)
+        verify(viewStateObserver, atLeastOnce()).onChanged(
+            ViewState.Success(sortedByStars)
         )
     }
 
@@ -192,13 +192,13 @@ class MainViewModelTest {
         )
 
         mainViewModel = MainViewModel(githubRepository)
-        mainViewModel.state.observeForever(stateObserver)
+        mainViewModel.viewState.observeForever(viewStateObserver)
         mainViewModel.fetchData(false)
 
-        mainViewModel.rearrangeRepositories(MainViewModel.RepositorySortingAlgorithm.BY_NAME)
+        mainViewModel.rearrangeRepositories(SortingType.BY_NAME)
 
-        verify(stateObserver, atLeastOnce()).onChanged(
-            MainViewModel.State.Success(sortedByName)
+        verify(viewStateObserver, atLeastOnce()).onChanged(
+            ViewState.Success(sortedByName)
         )
     }
 }
