@@ -20,7 +20,7 @@ open class MainViewModel
 
     private val _stateWithSorting = MediatorLiveData<ViewState>()
 
-    val viewState: LiveData<ViewState>
+    open val viewState: LiveData<ViewState>
         get() = _stateWithSorting
 
     init {
@@ -33,7 +33,7 @@ open class MainViewModel
         _stateWithSorting.addSource(_repositorySortingAlgorithm) { handleSorting() }
     }
 
-    fun fetchData(forceRefresh: Boolean = false) {
+    open fun fetchData(forceRefresh: Boolean = false) {
         _state.postValue(ViewState.Loading)
 
         compositeDisposable.add(
@@ -45,7 +45,7 @@ open class MainViewModel
         )
     }
 
-    fun rearrangeRepositories(sortingType: SortingType) {
+    open fun rearrangeRepositories(sortingType: SortingType) {
         _repositorySortingAlgorithm.postValue(sortingType)
     }
 

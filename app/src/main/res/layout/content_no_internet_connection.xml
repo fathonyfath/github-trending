@@ -44,7 +44,7 @@
         app:layout_constraintTop_toBottomOf="@+id/no_internet_connection_title" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/retry_button"
         style="@style/AppTheme.Button"
         android:layout_width="0dp"
         android:layout_height="@dimen/noInternetConnectionRetry_height"

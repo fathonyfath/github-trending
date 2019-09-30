@@ -19,13 +19,13 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
+import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest {
 
     @get:Rule
-    val activityRule = ActivityTestRule(MainActivity::class.java, false, false)
-
+    val activityRule = ActivityTestRule<MainActivity>(MainActivity::class.java)
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -41,9 +41,7 @@ class MainActivityTest {
 
         `when`(viewModel.viewState).thenReturn(viewState)
 
-        activityRule.activity.mainViewModelFactory = TestViewModelFactory(viewModel)
-
-        activityRule.launchActivity(null)
+        activityRule.activity.injectViewModelProvider(TestViewModelFactory(viewModel))
     }
 
     @After
@@ -53,7 +51,9 @@ class MainActivityTest {
 
     @Test
     fun loadingContentIsShownWhenViewStateIsLoading() {
-        viewState.postValue(ViewState.Loading)
+        activityRule.activity.runOnUiThread {
+            viewState.value = ViewState.Loading
+        }
 
         onView(withId(R.id.content_loading))
             .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
@@ -63,6 +63,38 @@ class MainActivityTest {
 
         onView(withId(R.id.content_repository_list))
             .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
+    }
+
+    @Test
+    fun noInternetConnectionContentIsShownWhenViewStateIsError() {
+        activityRule.activity.runOnUiThread {
+            viewState.value = ViewState.Error(IOException())
+        }
+
+        onView(withId(R.id.content_loading))
+            .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
+
+        onView(withId(R.id.content_no_internet_connection))
+            .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+
+        onView(withId(R.id.content_repository_list))
+            .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
+    }
+
+    @Test
+    fun repositoryListContentIsShownWhenViewStateIsSuccess() {
+        activityRule.activity.runOnUiThread {
+            viewState.value = ViewState.Error(IOException())
+        }
+
+        onView(withId(R.id.content_loading))
+            .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
+
+        onView(withId(R.id.content_no_internet_connection))
+            .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
+
+        onView(withId(R.id.content_repository_list))
+            .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
     }
 
 }
