@@ -1,6 +1,7 @@
 package id.fathonyfath.githubtrending.main
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +22,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var contentRepositoryList: RecyclerView
 
     private lateinit var repositoryAdapter: RepositoryAdapter
+
+    private var layoutManagerState: Parcelable? = null
+    private var adapterState: Parcelable? = null
 
     private val dummyData = listOf(
         Repository(
@@ -77,5 +81,38 @@ class MainActivity : AppCompatActivity() {
         contentNoInternetConnection.visibility = View.GONE
 
         toolbar.inflateMenu(R.menu.main_menu)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        layoutManagerState?.let { contentRepositoryList.layoutManager?.onRestoreInstanceState(it) }
+        adapterState?.let { repositoryAdapter.onRestoreInstanceState(it) }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        contentRepositoryList.layoutManager?.let { recyclerLayoutManager ->
+            layoutManagerState = recyclerLayoutManager.onSaveInstanceState()
+            outState.putParcelable(LAYOUT_MANAGER_STATE_KEY, layoutManagerState)
+        }
+
+        adapterState = repositoryAdapter.onSaveInstanceState()
+        outState.putParcelable(ADAPTER_STATE_KEY, adapterState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+        savedInstanceState?.let { savedState ->
+            layoutManagerState = savedState.getParcelable(LAYOUT_MANAGER_STATE_KEY)
+            adapterState = savedState.getParcelable(ADAPTER_STATE_KEY)
+        }
+    }
+
+    companion object {
+        private const val LAYOUT_MANAGER_STATE_KEY = "LayoutManagerState"
+        private const val ADAPTER_STATE_KEY = "AdapterState"
     }
 }

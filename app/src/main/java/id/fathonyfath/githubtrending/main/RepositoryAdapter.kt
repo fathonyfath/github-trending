@@ -4,6 +4,8 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,6 +48,22 @@ class RepositoryAdapter(context: Context) :
             if (previousExpandedPosition >= 0) {
                 notifyItemChanged(previousExpandedPosition)
             }
+        }
+    }
+
+    fun onSaveInstanceState(): Parcelable {
+        return Bundle().apply {
+            putInt(EXPANDED_POSITION_KEY, expandedPosition)
+        }
+    }
+
+    fun onRestoreInstanceState(state: Parcelable) {
+        if (state is Bundle) {
+            expandedPosition = state.getInt(EXPANDED_POSITION_KEY, -1)
+        }
+
+        if (expandedPosition >= 0) {
+            notifyItemChanged(expandedPosition)
         }
     }
 
@@ -114,5 +132,7 @@ class RepositoryAdapter(context: Context) :
             }
 
         }
+
+        private const val EXPANDED_POSITION_KEY = "ExpandedPositionKey"
     }
 }
