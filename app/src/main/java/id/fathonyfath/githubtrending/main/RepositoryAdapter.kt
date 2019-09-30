@@ -53,6 +53,14 @@ class RepositoryAdapter(context: Context) :
         }
     }
 
+    fun closeExpandedItem() {
+        if (expandedPosition >= 0) {
+            val previousExpandedPosition = expandedPosition
+            expandedPosition = -1
+            notifyItemChanged(previousExpandedPosition)
+        }
+    }
+
     fun onSaveInstanceState(): Parcelable {
         return Bundle().apply {
             putInt(EXPANDED_POSITION_KEY, expandedPosition)

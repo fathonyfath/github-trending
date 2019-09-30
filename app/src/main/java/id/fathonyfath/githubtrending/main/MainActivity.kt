@@ -2,6 +2,7 @@ package id.fathonyfath.githubtrending.main
 
 import android.os.Bundle
 import android.os.Parcelable
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
@@ -61,6 +62,7 @@ class MainActivity : AppCompatActivity() {
         setupDefaultState()
 
         toolbar.inflateMenu(R.menu.main_menu)
+        toolbar.setOnMenuItemClickListener { registerMenuItemListener(it) }
 
         observeViewState()
         registerListener()
@@ -162,6 +164,22 @@ class MainActivity : AppCompatActivity() {
 
             swipeRefreshLayout.isRefreshing = false
         }
+    }
+
+    private fun registerMenuItemListener(menuItem: MenuItem): Boolean {
+        when (menuItem.itemId) {
+            R.id.menu_sort_by_stars -> {
+                viewModel.rearrangeRepositories(SortingType.BY_STARS)
+                repositoryAdapter.closeExpandedItem()
+                return true
+            }
+            R.id.menu_sort_by_name -> {
+                viewModel.rearrangeRepositories(SortingType.BY_NAME)
+                repositoryAdapter.closeExpandedItem()
+                return true
+            }
+        }
+        return false
     }
 
     companion object {
