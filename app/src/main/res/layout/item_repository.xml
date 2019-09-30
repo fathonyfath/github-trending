@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/repository_avatar"
             android:layout_width="32dp"
             android:layout_height="32dp"
@@ -65,7 +65,7 @@
             android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <ImageView
                 android:id="@+id/repository_language_color"
                 android:layout_width="16dp"
                 android:layout_height="16dp"

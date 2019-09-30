@@ -3,6 +3,7 @@ package id.fathonyfath.githubtrending.main
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import id.fathonyfath.githubtrending.R
 import id.fathonyfath.githubtrending.model.Repository
+import id.fathonyfath.githubtrending.utils.loadImageWithCircleTransformation
 
 class RepositoryAdapter(context: Context) :
     ListAdapter<Repository, RepositoryAdapter.ViewHolder>(DIFF_CALLBACK) {
@@ -64,6 +66,7 @@ class RepositoryAdapter(context: Context) :
         private val repositoryForksView: TextView = itemView.findViewById(R.id.repository_forks)
 
         fun bind(data: Repository) {
+            repositoryAvatarView.loadImageWithCircleTransformation(Uri.parse(data.avatar))
             repositoryAuthorView.text = data.author
             repositoryNameView.text = data.name
             repositoryDescriptionView.text = data.description
@@ -80,7 +83,7 @@ class RepositoryAdapter(context: Context) :
                 repositoryLanguageView.visibility = View.VISIBLE
 
                 repositoryLanguageView.text = language
-                repositoryLanguageColorView.setImageDrawable(
+                repositoryLanguageColorView.loadImageWithCircleTransformation(
                     ColorDrawable(Color.parseColor(languageColor))
                 )
             } else {

@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         Repository(
             "Foo",
             "foo-bar",
-            "localhost",
+            "https://github.com/tmrowco.png",
             "localhost",
             "Foo is bar",
             "HTML",
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         Repository(
             "Bar",
             "bar-foo",
-            "localhost",
+            "https://github.com/ondyari.png",
             "localhost",
             "Bar is foo",
             "CSS",
