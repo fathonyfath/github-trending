@@ -124,7 +124,7 @@ class MainViewModelTest {
             )
         )
 
-        val sortedByStars = dummyData.sortedBy { it.stars }
+        val sortedByStars = dummyData.sortedByDescending { it.stars }
 
         `when`(githubRepository.repositories(ArgumentMatchers.anyBoolean())).thenReturn(
             Observable.just(dummyData)
