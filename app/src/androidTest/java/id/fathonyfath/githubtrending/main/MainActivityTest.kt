@@ -84,7 +84,7 @@ class MainActivityTest {
     @Test
     fun repositoryListContentIsShownWhenViewStateIsSuccess() {
         activityRule.activity.runOnUiThread {
-            viewState.value = ViewState.Error(IOException())
+            viewState.value = ViewState.Success(emptyList())
         }
 
         onView(withId(R.id.content_loading))
