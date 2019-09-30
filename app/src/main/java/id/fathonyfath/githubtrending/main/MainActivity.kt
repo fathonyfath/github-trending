@@ -63,6 +63,7 @@ class MainActivity : AppCompatActivity() {
         toolbar.inflateMenu(R.menu.main_menu)
 
         observeViewState()
+        registerListener()
     }
 
     override fun onResume() {
@@ -127,11 +128,15 @@ class MainActivity : AppCompatActivity() {
                         contentLoading.visibility = View.VISIBLE
                         contentRepositoryList.visibility = View.GONE
                         contentNoInternetConnection.visibility = View.GONE
+
+                        swipeRefreshLayout.isEnabled = false
                     }
                     is ViewState.Error -> {
                         contentLoading.visibility = View.GONE
                         contentRepositoryList.visibility = View.GONE
                         contentNoInternetConnection.visibility = View.VISIBLE
+
+                        swipeRefreshLayout.isEnabled = false
                     }
                     is ViewState.Success -> {
                         contentLoading.visibility = View.GONE
@@ -139,9 +144,23 @@ class MainActivity : AppCompatActivity() {
                         contentNoInternetConnection.visibility = View.GONE
 
                         updateRecyclerList(viewState.data)
+
+                        swipeRefreshLayout.isEnabled = true
                     }
                 }
             }
+        }
+    }
+
+    private fun registerListener() {
+        retryButton.setOnClickListener {
+            viewModel.fetchData()
+        }
+
+        swipeRefreshLayout.setOnRefreshListener {
+            viewModel.fetchData(forceRefresh = true)
+
+            swipeRefreshLayout.isRefreshing = false
         }
     }
 
