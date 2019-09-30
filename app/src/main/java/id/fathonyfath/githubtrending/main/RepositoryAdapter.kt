@@ -1,9 +1,12 @@
 package id.fathonyfath.githubtrending.main
 
+import android.animation.AnimatorInflater
+import android.animation.StateListAnimator
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
@@ -12,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -79,6 +83,8 @@ class RepositoryAdapter(context: Context) :
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+        private val context = itemView.context
+
         private val repositoryAvatarView: ImageView = itemView.findViewById(R.id.repository_avatar)
         private val repositoryAuthorView: TextView = itemView.findViewById(R.id.repository_author)
         private val repositoryNameView: TextView = itemView.findViewById(R.id.repository_name)
@@ -93,6 +99,8 @@ class RepositoryAdapter(context: Context) :
         private val repositoryStarsView: TextView = itemView.findViewById(R.id.repository_stars)
         private val repositoryForksView: TextView = itemView.findViewById(R.id.repository_forks)
 
+        private var animator: StateListAnimator? = null
+
         fun bind(data: Repository) {
             repositoryAvatarView.loadImageWithCircleTransformation(Uri.parse(data.avatar))
             repositoryAuthorView.text = data.author
@@ -105,6 +113,27 @@ class RepositoryAdapter(context: Context) :
 
             repositoryStarsView.text = numberFormatter.format(data.stars)
             repositoryForksView.text = numberFormatter.format(data.forks)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                this.bindStateListAnimatorToItem()
+            }
+        }
+
+        fun hideDetails() {
+            repositoryDetailContainerView.visibility = View.GONE
+        }
+
+        fun showDetails() {
+            repositoryDetailContainerView.visibility = View.VISIBLE
+        }
+
+        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+        private fun bindStateListAnimatorToItem() {
+            if (animator == null) {
+                animator =
+                    AnimatorInflater.loadStateListAnimator(context, R.animator.recycler_view_elevation)
+            }
+            this.itemView.stateListAnimator = animator
         }
 
         private fun bindRepositoryLanguage(language: String?, languageColor: String?) {
@@ -122,14 +151,6 @@ class RepositoryAdapter(context: Context) :
 
                 repositoryLanguageView.text = ""
             }
-        }
-
-        fun hideDetails() {
-            repositoryDetailContainerView.visibility = View.GONE
-        }
-
-        fun showDetails() {
-            repositoryDetailContainerView.visibility = View.VISIBLE
         }
     }
 

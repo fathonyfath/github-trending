@@ -10,8 +10,10 @@ import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -108,6 +110,16 @@ class MainActivity : AppCompatActivity() {
 
         contentRepositoryList.layoutManager = LinearLayoutManager(this)
         contentRepositoryList.adapter = repositoryAdapter
+
+        val drawable = ContextCompat.getDrawable(this, R.drawable.list_divider)
+
+        drawable?.let { dividerDrawable ->
+            val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL).apply {
+                setDrawable(dividerDrawable)
+            }
+
+            contentRepositoryList.addItemDecoration(divider)
+        }
     }
 
     private fun setupDefaultState() {
