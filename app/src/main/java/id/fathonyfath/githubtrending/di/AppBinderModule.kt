@@ -8,6 +8,8 @@ import com.google.gson.GsonBuilder
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import id.fathonyfath.githubtrending.data.DefaultGithubRepository
+import id.fathonyfath.githubtrending.data.GithubRepository
 import id.fathonyfath.githubtrending.data.cache.DefaultRepositoriesCache
 import id.fathonyfath.githubtrending.data.cache.DefaultTicker
 import id.fathonyfath.githubtrending.data.cache.RepositoriesCache
@@ -51,4 +53,8 @@ abstract class AppBinderModule {
     @Singleton
     @Named(AppComponent.REMOTE_DATA_SOURCE)
     abstract fun providesRemoteGithubDataSource(remoteGithubDataSource: RemoteGithubDataSource): GithubDataSource
+
+    @Binds
+    @Singleton
+    abstract fun providesGithubRepository(githubRepository: DefaultGithubRepository): GithubRepository
 }
