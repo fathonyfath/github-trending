@@ -89,10 +89,10 @@ class MainActivity : AppCompatActivity() {
         outState.putParcelable(ADAPTER_STATE_KEY, adapterState)
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
 
-        savedInstanceState?.let { savedState ->
+        savedInstanceState.let { savedState ->
             layoutManagerState = savedState.getParcelable(LAYOUT_MANAGER_STATE_KEY)
             adapterState = savedState.getParcelable(ADAPTER_STATE_KEY)
         }
