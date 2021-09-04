@@ -2,17 +2,17 @@ package id.fathonyfath.githubtrending.data
 
 import id.fathonyfath.githubtrending.data.cache.CacheNotFoundException
 import id.fathonyfath.githubtrending.data.source.GithubDataSource
-import id.fathonyfath.githubtrending.di.AppComponent
+import id.fathonyfath.githubtrending.di.LocalDataSource
+import id.fathonyfath.githubtrending.di.RemoteDataSource
 import id.fathonyfath.githubtrending.model.Repository
 import id.fathonyfath.githubtrending.scheduler.SchedulerProvider
 import io.reactivex.Observable
 import javax.inject.Inject
-import javax.inject.Named
 
 class DefaultGithubRepository
 @Inject constructor(
-    @Named(AppComponent.LOCAL_DATA_SOURCE) private val localDataSource: GithubDataSource,
-    @Named(AppComponent.REMOTE_DATA_SOURCE) private val remoteDataSource: GithubDataSource,
+    @LocalDataSource private val localDataSource: GithubDataSource,
+    @RemoteDataSource private val remoteDataSource: GithubDataSource,
     private val schedulerProvider: SchedulerProvider
 ) : GithubRepository {
 

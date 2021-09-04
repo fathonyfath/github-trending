@@ -14,16 +14,14 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
 object AppProviderModule {
 
-    @JvmStatic
     @Provides
     @Singleton
-    fun providesOkHttp(@Named(AppComponent.IS_DEBUG) isDebug: Boolean): OkHttpClient {
+    fun providesOkHttp(@IsDebug isDebug: Boolean): OkHttpClient {
         return OkHttpClient.Builder().run {
             if (isDebug) {
                 this.addInterceptor(HttpLoggingInterceptor().apply {
@@ -34,7 +32,6 @@ object AppProviderModule {
         }.build()
     }
 
-    @JvmStatic
     @Provides
     @Singleton
     fun providesGson(): Gson {
@@ -42,11 +39,10 @@ object AppProviderModule {
             .create()
     }
 
-    @JvmStatic
     @Provides
     @Singleton
     fun providesRetrofit(
-        @Named(AppComponent.BASE_URL) baseUrl: String,
+        @BaseUrl baseUrl: String,
         okHttpClient: OkHttpClient,
         gson: Gson
     ): Retrofit {
@@ -58,14 +54,12 @@ object AppProviderModule {
             .build()
     }
 
-    @JvmStatic
     @Provides
     @Singleton
     fun providesTrendingApi(retrofit: Retrofit): TrendingApi {
         return retrofit.create()
     }
 
-    @JvmStatic
     @Provides
     @Singleton
     fun providesSharedPreference(context: Context): SharedPreferences {

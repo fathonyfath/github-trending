@@ -131,7 +131,10 @@ class RepositoryAdapter(context: Context) :
         private fun bindStateListAnimatorToItem() {
             if (animator == null) {
                 animator =
-                    AnimatorInflater.loadStateListAnimator(context, R.animator.recycler_view_elevation)
+                    AnimatorInflater.loadStateListAnimator(
+                        context,
+                        R.animator.recycler_view_elevation
+                    )
             }
             this.itemView.stateListAnimator = animator
         }

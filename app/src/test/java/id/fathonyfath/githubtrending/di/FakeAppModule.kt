@@ -21,10 +21,9 @@ import javax.inject.Singleton
 @Module
 object FakeAppModule {
 
-    @JvmStatic
     @Provides
     @Singleton
-    fun providesOkHttp(@Named(AppComponent.IS_DEBUG) isDebug: Boolean): OkHttpClient {
+    fun providesOkHttp(@IsDebug isDebug: Boolean): OkHttpClient {
         return OkHttpClient.Builder().run {
             if (isDebug) {
                 this.addInterceptor(HttpLoggingInterceptor().apply {
@@ -37,7 +36,6 @@ object FakeAppModule {
             .build()
     }
 
-    @JvmStatic
     @Provides
     @Singleton
     fun providesGson(): Gson {
@@ -45,11 +43,10 @@ object FakeAppModule {
             .create()
     }
 
-    @JvmStatic
     @Provides
     @Singleton
     fun providesRetrofit(
-        @Named(AppComponent.BASE_URL) baseUrl: HttpUrl,
+        @BaseUrl baseUrl: HttpUrl,
         okHttpClient: OkHttpClient,
         gson: Gson
     ): Retrofit {
@@ -61,14 +58,12 @@ object FakeAppModule {
             .build()
     }
 
-    @JvmStatic
     @Provides
     @Singleton
     fun providesTrendingApi(retrofit: Retrofit): TrendingApi {
         return retrofit.create()
     }
 
-    @JvmStatic
     @Provides
     @Singleton
     fun providesSchedulerProvider(trampolineSchedulerProvider: TrampolineSchedulerProvider): SchedulerProvider {
