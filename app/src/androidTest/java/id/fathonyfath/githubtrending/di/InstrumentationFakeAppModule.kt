@@ -12,14 +12,12 @@ import javax.inject.Singleton
 @Module
 object InstrumentationFakeAppModule {
 
-    @JvmStatic
     @Provides
     @Singleton
     fun providesSharedPreference(context: Context): SharedPreferences {
         return PreferenceManager.getDefaultSharedPreferences(context)
     }
 
-    @JvmStatic
     @Provides
     @Singleton
     fun providesGson(): Gson {

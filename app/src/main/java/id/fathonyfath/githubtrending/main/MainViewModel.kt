@@ -58,8 +58,8 @@ open class MainViewModel
         val currentState = _state.value
         if (currentState is ViewState.Success) {
             val sorted = when (_repositorySortingAlgorithm.value) {
-                SortingType.BY_STARS -> currentState.data.sortedByDescending { it.stars }
-                SortingType.BY_NAME -> currentState.data.sortedBy { it.name }
+                SortingType.BY_STARS -> currentState.data.sortedByDescending { it.totalStars }
+                SortingType.BY_NAME -> currentState.data.sortedBy { it.repositoryName }
                 null -> currentState.data
             }
 

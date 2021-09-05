@@ -2,7 +2,6 @@ package id.fathonyfath.githubtrending.data.source.remote
 
 import id.fathonyfath.githubtrending.BuildConfig
 import id.fathonyfath.githubtrending.data.cache.RepositoriesCache
-import id.fathonyfath.githubtrending.di.DaggerTestAppComponent
 import id.fathonyfath.githubtrending.scheduler.TrampolineSchedulerProvider
 import io.reactivex.Completable
 import okhttp3.mockwebserver.MockResponse

@@ -102,16 +102,17 @@ class RepositoryAdapter(context: Context) :
         private var animator: StateListAnimator? = null
 
         fun bind(data: Repository) {
-            repositoryAvatarView.loadImageWithCircleTransformation(Uri.parse(data.avatar))
-            repositoryAuthorView.text = data.author
-            repositoryNameView.text = data.name
+            val author = data.builtBy.first()
+            repositoryAvatarView.loadImageWithCircleTransformation(Uri.parse(author.avatar))
+            repositoryAuthorView.text = author.username
+            repositoryNameView.text = data.repositoryName
             repositoryDescriptionView.text = data.description
 
             bindRepositoryLanguage(data.language, data.languageColor)
 
             val numberFormatter = NumberFormat.getNumberInstance(Locale.US)
 
-            repositoryStarsView.text = numberFormatter.format(data.stars)
+            repositoryStarsView.text = numberFormatter.format(data.totalStars)
             repositoryForksView.text = numberFormatter.format(data.forks)
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -160,7 +161,7 @@ class RepositoryAdapter(context: Context) :
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Repository>() {
             override fun areItemsTheSame(oldItem: Repository, newItem: Repository): Boolean {
-                return oldItem.name == newItem.name
+                return oldItem.repositoryName == newItem.repositoryName
             }
 
             override fun areContentsTheSame(oldItem: Repository, newItem: Repository): Boolean {

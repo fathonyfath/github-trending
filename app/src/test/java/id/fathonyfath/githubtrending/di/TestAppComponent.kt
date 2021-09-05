@@ -17,13 +17,8 @@ interface TestAppComponent : AppComponent {
     @Component.Factory
     interface Factory {
         fun newAppComponent(
-            @Named(BASE_URL) @BindsInstance baseUrl: HttpUrl,
-            @Named(IS_DEBUG) @BindsInstance isDebug: Boolean
+            @BaseUrl @BindsInstance baseUrl: HttpUrl,
+            @IsDebug @BindsInstance isDebug: Boolean
         ): TestAppComponent
-    }
-
-    companion object {
-        const val BASE_URL = "BaseUrl"
-        const val IS_DEBUG = "IsDebug"
     }
 }

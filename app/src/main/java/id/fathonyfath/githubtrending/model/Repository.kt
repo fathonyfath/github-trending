@@ -1,15 +1,16 @@
 package id.fathonyfath.githubtrending.model
 
 data class Repository(
-    val author: String,
-    val name: String,
-    val avatar: String,
+    val rank: Int,
+    val username: String,
+    val repositoryName: String,
     val url: String,
-    val description: String,
+    val description: String?,
     val language: String?,
     val languageColor: String?,
-    val stars: Long,
-    val forks: Long,
-    val currentPeriodStars: Long,
+    val totalStars: Int,
+    val forks: Int,
+    val starsSince: Int,
+    val since: String,
     val builtBy: List<Contributor>
 )
