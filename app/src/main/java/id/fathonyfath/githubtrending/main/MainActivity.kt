@@ -6,23 +6,21 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
-import androidx.annotation.VisibleForTesting
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import dagger.android.AndroidInjection
+import dagger.hilt.android.AndroidEntryPoint
 import id.fathonyfath.githubtrending.R
-import id.fathonyfath.githubtrending.di.ViewModelFactory
 import id.fathonyfath.githubtrending.model.Repository
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var toolbar: Toolbar
@@ -39,18 +37,10 @@ class MainActivity : AppCompatActivity() {
     private var layoutManagerState: Parcelable? = null
     private var adapterState: Parcelable? = null
 
-    @Inject
-    lateinit var mainViewModelFactory: ViewModelFactory<MainViewModel>
-
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-
-        if (::mainViewModelFactory.isInitialized)
-            viewModel = ViewModelProvider(this, mainViewModelFactory).get(MainViewModel::class.java)
-
         setContentView(R.layout.activity_main)
 
         toolbar = findViewById(R.id.toolbar)
@@ -98,13 +88,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    @VisibleForTesting
-    fun injectViewModelProvider(factory: ViewModelFactory<MainViewModel>) {
-        mainViewModelFactory = factory
-        viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
-        observeViewState()
-    }
-
     private fun setupRecyclerView() {
         repositoryAdapter = RepositoryAdapter(this)
 
@@ -133,34 +116,32 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeViewState() {
-        if (::viewModel.isInitialized) {
-            viewModel.fetchData()
+        viewModel.fetchData()
 
-            viewModel.viewState.observe(this) { viewState ->
-                when (viewState) {
-                    is ViewState.Loading -> {
-                        contentLoading.visibility = View.VISIBLE
-                        contentRepositoryList.visibility = View.GONE
-                        contentNoInternetConnection.visibility = View.GONE
+        viewModel.viewState.observe(this) { viewState ->
+            when (viewState) {
+                is ViewState.Loading -> {
+                    contentLoading.visibility = View.VISIBLE
+                    contentRepositoryList.visibility = View.GONE
+                    contentNoInternetConnection.visibility = View.GONE
 
-                        swipeRefreshLayout.isEnabled = false
-                    }
-                    is ViewState.Error -> {
-                        contentLoading.visibility = View.GONE
-                        contentRepositoryList.visibility = View.GONE
-                        contentNoInternetConnection.visibility = View.VISIBLE
+                    swipeRefreshLayout.isEnabled = false
+                }
+                is ViewState.Error -> {
+                    contentLoading.visibility = View.GONE
+                    contentRepositoryList.visibility = View.GONE
+                    contentNoInternetConnection.visibility = View.VISIBLE
 
-                        swipeRefreshLayout.isEnabled = false
-                    }
-                    is ViewState.Success -> {
-                        contentLoading.visibility = View.GONE
-                        contentRepositoryList.visibility = View.VISIBLE
-                        contentNoInternetConnection.visibility = View.GONE
+                    swipeRefreshLayout.isEnabled = false
+                }
+                is ViewState.Success -> {
+                    contentLoading.visibility = View.GONE
+                    contentRepositoryList.visibility = View.VISIBLE
+                    contentNoInternetConnection.visibility = View.GONE
 
-                        updateRecyclerList(viewState.data)
+                    updateRecyclerList(viewState.data)
 
-                        swipeRefreshLayout.isEnabled = true
-                    }
+                    swipeRefreshLayout.isEnabled = true
                 }
             }
         }

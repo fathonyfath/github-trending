@@ -2,58 +2,51 @@ package id.fathonyfath.githubtrending.main
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
+import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.ActivityTestRule
+import dagger.hilt.android.testing.BindValue
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import id.fathonyfath.githubtrending.R
-import id.fathonyfath.githubtrending.di.TestViewModelFactory
-import org.junit.After
+import id.fathonyfath.githubtrending.data.GithubRepository
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.MockitoAnnotations
 import java.io.IOException
+import javax.inject.Inject
 
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class MainActivityTest {
 
-    @get:Rule
-    val activityRule = ActivityTestRule<MainActivity>(MainActivity::class.java)
+    @get:Rule(order = 0)
+    val hiltRule = HiltAndroidRule(this)
 
-    @get:Rule
+    @get:Rule(order = 2)
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    @Mock
+    @Inject
+    lateinit var githubRepository: GithubRepository
+
+    @BindValue
     lateinit var viewModel: MainViewModel
 
     private val viewState = MutableLiveData<ViewState>()
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
-
-        `when`(viewModel.viewState).thenReturn(viewState)
-
-        activityRule.activity.injectViewModelProvider(TestViewModelFactory(viewModel))
-    }
-
-    @After
-    fun tearDown() {
-        activityRule.finishActivity()
+        hiltRule.inject()
+        viewModel = FakeMainViewModel(viewState, githubRepository)
     }
 
     @Test
     fun loadingContentIsShownWhenViewStateIsLoading() {
-        activityRule.activity.runOnUiThread {
-            viewState.value = ViewState.Loading
-        }
+        viewState.value = ViewState.Loading
+
+        val scenario = ActivityScenario.launch(MainActivity::class.java)
 
         onView(withId(R.id.content_loading))
             .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
@@ -63,13 +56,15 @@ class MainActivityTest {
 
         onView(withId(R.id.content_repository_list))
             .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
+
+        scenario.close()
     }
 
     @Test
     fun noInternetConnectionContentIsShownWhenViewStateIsError() {
-        activityRule.activity.runOnUiThread {
-            viewState.value = ViewState.Error(IOException())
-        }
+        viewState.value = ViewState.Error(IOException())
+
+        val scenario = ActivityScenario.launch(MainActivity::class.java)
 
         onView(withId(R.id.content_loading))
             .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
@@ -79,13 +74,15 @@ class MainActivityTest {
 
         onView(withId(R.id.content_repository_list))
             .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
+
+        scenario.close()
     }
 
     @Test
     fun repositoryListContentIsShownWhenViewStateIsSuccess() {
-        activityRule.activity.runOnUiThread {
-            viewState.value = ViewState.Success(emptyList())
-        }
+        viewState.value = ViewState.Success(emptyList())
+
+        val scenario = ActivityScenario.launch(MainActivity::class.java)
 
         onView(withId(R.id.content_loading))
             .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
@@ -95,6 +92,8 @@ class MainActivityTest {
 
         onView(withId(R.id.content_repository_list))
             .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+
+        scenario.close()
     }
 
 }

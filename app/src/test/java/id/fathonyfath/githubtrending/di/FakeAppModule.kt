@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.migration.DisableInstallInCheck
 import id.fathonyfath.githubtrending.data.source.remote.TrendingApi
 import id.fathonyfath.githubtrending.scheduler.SchedulerProvider
 import id.fathonyfath.githubtrending.scheduler.TrampolineSchedulerProvider
@@ -15,10 +16,10 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import java.util.concurrent.TimeUnit
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
+@DisableInstallInCheck
 object FakeAppModule {
 
     @Provides

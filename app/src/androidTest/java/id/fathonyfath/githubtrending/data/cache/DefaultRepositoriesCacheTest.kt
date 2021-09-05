@@ -2,23 +2,27 @@ package id.fathonyfath.githubtrending.data.cache
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.gson.Gson
-import id.fathonyfath.githubtrending.TestGithubApplication
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import id.fathonyfath.githubtrending.model.Contributor
 import id.fathonyfath.githubtrending.model.Repository
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import java.util.concurrent.TimeUnit
-
 import javax.inject.Inject
 
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class DefaultRepositoriesCacheTest {
 
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
+
     @Inject
+    @ApplicationContext
     lateinit var appContext: Context
 
     @Inject
@@ -34,9 +38,9 @@ class DefaultRepositoriesCacheTest {
 
     private val dummyData = listOf(
         Repository(
+            1,
             "Foo",
             "foo-bar",
-            "localhost",
             "localhost",
             "Foo is bar",
             "HTML",
@@ -44,15 +48,16 @@ class DefaultRepositoriesCacheTest {
             751,
             8,
             0,
+            "since",
             listOf(
                 Contributor("Foo", "localhost", "localhost"),
                 Contributor("Bar", "localhost", "localhost")
             )
         ),
         Repository(
+            2,
             "Bar",
             "bar-foo",
-            "localhost",
             "localhost",
             "Bar is foo",
             "CSS",
@@ -60,6 +65,7 @@ class DefaultRepositoriesCacheTest {
             111,
             6,
             90,
+            "since",
             listOf(
                 Contributor("Baz", "localhost", "localhost")
             )
@@ -68,7 +74,7 @@ class DefaultRepositoriesCacheTest {
 
     @Before
     fun setUp() {
-        TestGithubApplication.instance.component.inject(this)
+        hiltRule.inject()
 
         defaultRepositoriesCache =
             DefaultRepositoriesCache(appContext, sharedPreferences, gson, ticker)

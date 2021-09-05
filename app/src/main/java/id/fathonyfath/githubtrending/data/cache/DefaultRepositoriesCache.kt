@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.google.gson.Gson
+import dagger.hilt.android.qualifiers.ApplicationContext
 import id.fathonyfath.githubtrending.model.Repository
 import id.fathonyfath.githubtrending.utils.fromJson
 import io.reactivex.Completable
@@ -15,7 +16,7 @@ import javax.inject.Singleton
 @Singleton
 class DefaultRepositoriesCache
 @Inject constructor(
-    context: Context,
+    @ApplicationContext context: Context,
     private val sharedPreferences: SharedPreferences,
     private val gson: Gson,
     private val ticker: Ticker

@@ -7,6 +7,10 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import id.fathonyfath.githubtrending.BuildConfig
 import id.fathonyfath.githubtrending.data.source.remote.TrendingApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -17,7 +21,22 @@ import retrofit2.create
 import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 object AppProviderModule {
+
+    @Provides
+    @Singleton
+    @IsDebug
+    fun providesIsDebug(): Boolean {
+        return BuildConfig.DEBUG
+    }
+
+    @Provides
+    @Singleton
+    @BaseUrl
+    fun providesBaseUrl(): String {
+        return BuildConfig.BASE_URL
+    }
 
     @Provides
     @Singleton
@@ -62,7 +81,7 @@ object AppProviderModule {
 
     @Provides
     @Singleton
-    fun providesSharedPreference(context: Context): SharedPreferences {
+    fun providesSharedPreference(@ApplicationContext context: Context): SharedPreferences {
         return PreferenceManager.getDefaultSharedPreferences(context)
     }
 }

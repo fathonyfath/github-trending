@@ -1,7 +1,9 @@
 package id.fathonyfath.githubtrending.data.source.remote
 
 import id.fathonyfath.githubtrending.BuildConfig
+import id.fathonyfath.githubtrending.core.RepositoryResponseToRepositoryMapper
 import id.fathonyfath.githubtrending.data.cache.RepositoriesCache
+import id.fathonyfath.githubtrending.di.DaggerTestAppComponent
 import id.fathonyfath.githubtrending.scheduler.TrampolineSchedulerProvider
 import io.reactivex.Completable
 import okhttp3.mockwebserver.MockResponse
@@ -31,6 +33,9 @@ class RemoteGithubDataSourceTest {
     @Inject
     lateinit var schedulerProvider: TrampolineSchedulerProvider
 
+    @Inject
+    lateinit var mapper: RepositoryResponseToRepositoryMapper
+
     lateinit var remoteGithubDataSource: RemoteGithubDataSource
 
     private val mockWebServer = MockWebServer()
@@ -45,7 +50,7 @@ class RemoteGithubDataSourceTest {
             .inject(this)
 
         remoteGithubDataSource =
-            RemoteGithubDataSource(trendingApi, repositoriesCache, schedulerProvider)
+            RemoteGithubDataSource(trendingApi, repositoriesCache, schedulerProvider, mapper)
 
     }
 

@@ -2,6 +2,8 @@ package id.fathonyfath.githubtrending.di
 
 import dagger.Binds
 import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import id.fathonyfath.githubtrending.data.DefaultGithubRepository
 import id.fathonyfath.githubtrending.data.GithubRepository
 import id.fathonyfath.githubtrending.data.cache.DefaultRepositoriesCache
@@ -16,6 +18,7 @@ import id.fathonyfath.githubtrending.scheduler.SchedulerProvider
 import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 abstract class AppBinderModule {
 
     @Binds

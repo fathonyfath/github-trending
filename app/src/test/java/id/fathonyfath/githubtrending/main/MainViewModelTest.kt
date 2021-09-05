@@ -84,9 +84,9 @@ class MainViewModelTest {
     fun fetchData_sortByStars() {
         val dummyData = listOf(
             Repository(
+                1,
                 "author-1",
                 "name-1",
-                "avatar-1",
                 "url-1",
                 "desc-1",
                 "lang-1",
@@ -94,12 +94,13 @@ class MainViewModelTest {
                 9,
                 0,
                 0,
+                "since",
                 emptyList()
             ),
             Repository(
+                2,
                 "author-2",
                 "name-2",
-                "avatar-2",
                 "url-2",
                 "desc-2",
                 "lang-2",
@@ -107,12 +108,13 @@ class MainViewModelTest {
                 1,
                 0,
                 0,
+                "since",
                 emptyList()
             ),
             Repository(
+                3,
                 "author-3",
                 "name-3",
-                "avatar-3",
                 "url-3",
                 "desc-3",
                 "lang-3",
@@ -120,11 +122,12 @@ class MainViewModelTest {
                 3,
                 0,
                 0,
+                "since",
                 emptyList()
             )
         )
 
-        val sortedByStars = dummyData.sortedByDescending { it.stars }
+        val sortedByStars = dummyData.sortedByDescending { it.totalStars }
 
         `when`(githubRepository.repositories(ArgumentMatchers.anyBoolean())).thenReturn(
             Observable.just(dummyData)
@@ -145,9 +148,9 @@ class MainViewModelTest {
     fun fetchData_sortByName() {
         val dummyData = listOf(
             Repository(
+                1,
                 "author-1",
                 "lorem",
-                "avatar-1",
                 "url-1",
                 "desc-1",
                 "lang-1",
@@ -155,12 +158,13 @@ class MainViewModelTest {
                 0,
                 0,
                 0,
+                "since",
                 emptyList()
             ),
             Repository(
+                2,
                 "author-2",
                 "buzz",
-                "avatar-2",
                 "url-2",
                 "desc-2",
                 "lang-2",
@@ -168,12 +172,13 @@ class MainViewModelTest {
                 0,
                 0,
                 0,
+                "since",
                 emptyList()
             ),
             Repository(
+                3,
                 "author-3",
                 "fizz",
-                "avatar-3",
                 "url-3",
                 "desc-3",
                 "lang-3",
@@ -181,11 +186,12 @@ class MainViewModelTest {
                 0,
                 0,
                 0,
+                "since",
                 emptyList()
             )
         )
 
-        val sortedByName = dummyData.sortedBy { it.name }
+        val sortedByName = dummyData.sortedBy { it.repositoryName }
 
         `when`(githubRepository.repositories(ArgumentMatchers.anyBoolean())).thenReturn(
             Observable.just(dummyData)
